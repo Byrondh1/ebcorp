@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lato:wght@300;400;700&display=swap');
+
+:root {
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-lato: 'Lato', system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-lato);
+  background-color: #0A0A0A;
+  color: #FFFFFF;
+  overflow-x: hidden;
+}
+
+@layer components {
+  .section-heading {
+    @apply font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-brand-white text-center;
+  }
+
+  .gold-line {
+    @apply block w-16 h-0.5 bg-brand-gold mx-auto mt-3;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center gap-2 bg-brand-gold text-brand-black font-semibold px-6 py-3 rounded-full transition-all duration-300 hover:bg-brand-gold-light hover:shadow-lg hover:shadow-brand-gold/30 active:scale-95;
+  }
+
+  .btn-outline-gold {
+    @apply inline-flex items-center gap-2 border border-brand-gold text-brand-gold font-semibold px-6 py-3 rounded-full transition-all duration-300 hover:bg-brand-gold hover:text-brand-black active:scale-95;
+  }
+
+  .card-dark {
+    @apply bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden transition-all duration-300 hover:border-brand-gold/40 hover:shadow-xl hover:shadow-brand-gold/10;
+  }
+}
+
+@layer utilities {
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-brand-gold-light via-brand-gold to-brand-gold-dark bg-clip-text text-transparent;
+  }
+
+  .bg-gradient-hero {
+    background: linear-gradient(135deg, #0A0A0A 0%, #1a1008 50%, #0A0A0A 100%);
+  }
+
+  .bg-gradient-gold-subtle {
+    background: linear-gradient(180deg, rgba(201, 168, 76, 0.08) 0%, transparent 100%);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+::-webkit-scrollbar-thumb {
+  background: #C9A84C;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E2C97A;
+}
