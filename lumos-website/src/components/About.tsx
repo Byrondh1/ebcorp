@@ -11,7 +11,8 @@ export default function About() {
           <span className="gold-line" />
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        {/* Main grid: text left, photo collage right */}
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-16">
           {/* Text */}
           <div>
             <p className="text-brand-gray text-lg leading-relaxed mb-6">
@@ -33,27 +34,70 @@ export default function About() {
             </div>
           </div>
 
-          {/* Feature Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4">
-            {FEATURES.map((feature) => (
-              <div
-                key={feature.title}
-                className="flex items-start gap-4 p-5 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/30 transition-colors group"
-              >
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-brand-gold/10 flex items-center justify-center group-hover:bg-brand-gold/20 transition-colors">
-                  <feature.Icon className="w-6 h-6 text-brand-gold" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-brand-white mb-1">{feature.title}</h3>
-                  <p className="text-brand-gray text-sm leading-relaxed">{feature.description}</p>
-                </div>
-              </div>
-            ))}
+          {/* Photo Collage */}
+          <div className="grid grid-cols-2 gap-3" style={{ gridTemplateRows: '220px 200px' }}>
+            {/* Large image — spans full width */}
+            <div className="col-span-2 rounded-2xl overflow-hidden">
+              <img
+                src="/images/about/about-1.jpg"
+                alt="Ramos de velas artesanales de girasoles"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            {/* Two smaller images below */}
+            <div className="rounded-2xl overflow-hidden">
+              <img
+                src="/images/about/about-2.jpg"
+                alt="Vela Lupita en caja de regalo"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="rounded-2xl overflow-hidden">
+              <img
+                src="/images/about/about-3.jpg"
+                alt="Arreglo de velas rosas en cajas corazón"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
 
+        {/* Feature Cards — full width row */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-16">
+          {FEATURES.map((feature) => (
+            <div
+              key={feature.title}
+              className="flex items-start gap-4 p-5 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/30 transition-colors group"
+            >
+              <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-brand-gold/10 flex items-center justify-center group-hover:bg-brand-gold/20 transition-colors">
+                <feature.Icon className="w-6 h-6 text-brand-gold" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-brand-white mb-1">{feature.title}</h3>
+                <p className="text-brand-gray text-sm leading-relaxed">{feature.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Additional photos strip */}
+        <div className="flex gap-3 overflow-x-auto pb-2 mb-16 scrollbar-hide">
+          {EXTRA_PHOTOS.map((photo) => (
+            <div
+              key={photo.src}
+              className="flex-shrink-0 w-48 h-48 rounded-2xl overflow-hidden"
+            >
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+          ))}
+        </div>
+
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 pt-16 border-t border-zinc-800">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-16 border-t border-zinc-800">
           {STATS.map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="font-heading text-3xl md:text-4xl font-semibold text-gradient-gold mb-1">
@@ -87,6 +131,14 @@ const FEATURES = [
       'Cada vela pasa por un proceso artesanal cuidadoso. No hay dos iguales — eso las hace especiales.',
     Icon: HandIcon,
   },
+]
+
+const EXTRA_PHOTOS = [
+  { src: '/images/about/about-4.jpg', alt: 'Bouquet de velas girasoles y margaritas' },
+  { src: '/images/about/about-5.jpg', alt: 'Vela Lupita sostenida en mano' },
+  { src: '/images/about/about-6.jpg', alt: 'Detalle artesanal de velas' },
+  { src: '/images/about/about-7.jpg', alt: 'Arreglo especial de velas' },
+  { src: '/images/about/about-8.jpg', alt: 'Creación artesanal Lumos by Paola' },
 ]
 
 const STATS = [
