@@ -4,15 +4,15 @@ import { useState } from 'react'
 import { SOCIAL } from '@/lib/constants'
 
 const GALLERY_ITEMS = [
-  { id: 1, label: 'Velas de Rosas', category: 'Florales', accent: '#F9C6D0' },
-  { id: 2, label: 'La Lupita', category: 'Religiosas', accent: '#C9A84C' },
-  { id: 3, label: 'Arreglo Floral', category: 'Arreglos', accent: '#E2C97A' },
-  { id: 4, label: 'Velas de Peonías', category: 'Florales', accent: '#F9C6D0' },
-  { id: 5, label: 'Caja Premium', category: 'Premium', accent: '#C9A84C' },
-  { id: 6, label: 'Velas de Girasoles', category: 'Florales', accent: '#E2C97A' },
-  { id: 7, label: 'Canasta de Regalo', category: 'Arreglos', accent: '#F9C6D0' },
-  { id: 8, label: 'Recordatorio de Boda', category: 'Especiales', accent: '#C9A84C' },
-  { id: 9, label: 'Caja I ❤️ U', category: 'Premium', accent: '#E2C97A' },
+  { id: 1, label: 'Velas de Rosas',        category: 'Florales',    image: '/images/gallery/gallery-1.jpg' },
+  { id: 2, label: 'La Lupita',             category: 'Religiosas',  image: '/images/gallery/gallery-2.jpg' },
+  { id: 3, label: 'Arreglo Floral',        category: 'Arreglos',    image: '/images/gallery/gallery-3.jpg' },
+  { id: 4, label: 'Velas de Peonías',      category: 'Florales',    image: '/images/gallery/gallery-4.jpg' },
+  { id: 5, label: 'Caja Premium',          category: 'Premium',     image: '/images/gallery/gallery-5.jpg' },
+  { id: 6, label: 'Velas de Girasoles',    category: 'Florales',    image: '/images/gallery/gallery-6.jpg' },
+  { id: 7, label: 'Canasta de Regalo',     category: 'Arreglos',    image: '/images/gallery/gallery-7.jpg' },
+  { id: 8, label: 'Recordatorio de Boda',  category: 'Especiales',  image: '/images/gallery/gallery-8.jpg' },
+  { id: 9, label: 'Caja I ❤️ U',          category: 'Premium',     image: '/images/gallery/gallery-9.jpg' },
 ]
 
 export default function Gallery() {
@@ -44,25 +44,27 @@ export default function Gallery() {
               }`}
               style={{ minHeight: idx === 0 || idx === 4 ? '400px' : '180px' }}
             >
-              {/* Placeholder content */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                <div
-                  className="w-16 h-16 rounded-full mb-3 flex items-center justify-center"
-                  style={{ backgroundColor: `${item.accent}20` }}
-                >
-                  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke={item.accent} strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2m0 0c0 0-.8 1.5-.8 3s.8 1.5.8 1.5.8-1.5.8-3S12 5 12 5zM8 9h8a2 2 0 012 2v9a2 2 0 01-2 2H8a2 2 0 01-2-2v-9a2 2 0 012-2z" />
-                  </svg>
-                </div>
-                <span className="text-xs font-medium" style={{ color: item.accent }}>
+              {/* Real photo */}
+              <img
+                src={item.image}
+                alt={item.label}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-black/80 via-brand-black/10 to-transparent" />
+
+              {/* Label */}
+              <div className="absolute bottom-0 left-0 right-0 p-4 text-left">
+                <span className="text-xs font-semibold uppercase tracking-widest text-brand-gold block mb-0.5">
                   {item.category}
                 </span>
-                <span className="text-brand-white/60 text-sm mt-1 text-center">{item.label}</span>
+                <span className="text-brand-white text-sm font-medium">{item.label}</span>
               </div>
 
-              {/* Hover overlay */}
-              <div className="absolute inset-0 bg-brand-gold/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <div className="bg-brand-black/70 rounded-full p-3">
+              {/* Zoom icon on hover */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="bg-brand-black/60 rounded-full p-3 backdrop-blur-sm">
                   <ZoomIcon className="w-5 h-5 text-brand-gold" />
                 </div>
               </div>
@@ -76,7 +78,7 @@ export default function Gallery() {
           <p className="text-brand-white font-semibold mb-6 font-heading text-xl">
             Síguenos en redes sociales
           </p>
-          <div className="flex justify-center gap-4">
+          <div className="flex justify-center gap-4 flex-wrap">
             <a
               href={SOCIAL.instagram}
               target="_blank"
@@ -123,24 +125,22 @@ export default function Gallery() {
             </svg>
           </button>
           <div
-            className="max-w-lg w-full bg-zinc-900 rounded-3xl border border-zinc-800 p-8 text-center"
+            className="max-w-2xl w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            <div
-              className="w-24 h-24 rounded-full mx-auto mb-4 flex items-center justify-center"
-              style={{ backgroundColor: `${GALLERY_ITEMS[lightbox].accent}20` }}
-            >
-              <svg className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke={GALLERY_ITEMS[lightbox].accent} strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2m0 0c0 0-.8 1.5-.8 3s.8 1.5.8 1.5.8-1.5.8-3S12 5 12 5zM8 9h8a2 2 0 012 2v9a2 2 0 01-2 2H8a2 2 0 01-2-2v-9a2 2 0 012-2z" />
-              </svg>
+            <img
+              src={GALLERY_ITEMS[lightbox].image}
+              alt={GALLERY_ITEMS[lightbox].label}
+              className="w-full max-h-[75vh] object-contain rounded-2xl"
+            />
+            <div className="mt-4 text-center">
+              <span className="text-brand-gold text-xs font-semibold uppercase tracking-widest block">
+                {GALLERY_ITEMS[lightbox].category}
+              </span>
+              <h3 className="font-heading text-xl text-brand-white mt-1">
+                {GALLERY_ITEMS[lightbox].label}
+              </h3>
             </div>
-            <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: GALLERY_ITEMS[lightbox].accent }}>
-              {GALLERY_ITEMS[lightbox].category}
-            </span>
-            <h3 className="font-heading text-2xl text-brand-white mt-2 mb-1">{GALLERY_ITEMS[lightbox].label}</h3>
-            <p className="text-brand-gray text-sm mt-3">
-              Foto disponible próximamente. Contáctanos para ver más diseños.
-            </p>
           </div>
         </div>
       )}
