@@ -134,11 +134,16 @@ const FEATURES = [
 ]
 
 const EXTRA_PHOTOS = [
-  { src: '/images/about/about-4.jpg', alt: 'Bouquet de velas girasoles y margaritas' },
-  { src: '/images/about/about-5.jpg', alt: 'Vela Lupita sostenida en mano' },
-  { src: '/images/about/about-6.jpg', alt: 'Detalle artesanal de velas' },
-  { src: '/images/about/about-7.jpg', alt: 'Arreglo especial de velas' },
-  { src: '/images/about/about-8.jpg', alt: 'Creación artesanal Lumos by Paola' },
+  { src: '/images/about/about-4.jpg',  alt: 'Bouquet de velas girasoles y margaritas' },
+  { src: '/images/about/about-5.jpg',  alt: 'Vela Lupita sostenida en mano' },
+  { src: '/images/about/about-6.jpg',  alt: 'Detalle artesanal de velas florales' },
+  { src: '/images/about/about-7.jpg',  alt: 'Arreglo especial de velas Lumos by Paola' },
+  { src: '/images/about/about-8.jpg',  alt: 'Proceso de elaboración artesanal' },
+  { src: '/images/about/about-9.jpg',  alt: 'Velas aromáticas personalizadas' },
+  { src: '/images/about/about-10.jpg', alt: 'Colección de velas florales' },
+  { src: '/images/about/about-11.jpg', alt: 'Arreglo floral con velas artesanales' },
+  { src: '/images/about/about-12.jpg', alt: 'Caja de regalo con velas Lumos by Paola' },
+  { src: '/images/about/about-13.jpg', alt: 'Velas artesanales hechas a mano en Ecuador' },
 ]
 
 const STATS = [
