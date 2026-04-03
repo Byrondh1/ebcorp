@@ -6,20 +6,25 @@ export default function Hero() {
       id="inicio"
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero"
     >
-      {/* Background decorative elements */}
+      {/* Background photo — fallback silencioso al gradiente si no existe */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/hero/hero.jpg"
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover object-center"
+        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+      />
+
+      {/* Dark overlay para legibilidad del texto */}
+      <div className="absolute inset-0 bg-gradient-to-b from-brand-black/75 via-brand-black/50 to-brand-black/80" />
+
+      {/* Blur dorado decorativo */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-gold/5 blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-brand-gold/4 blur-3xl" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-brand-gold/5" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-brand-gold/8" />
-      </div>
-
-      {/* Decorative floral SVG */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-80 h-80 md:w-[500px] md:h-[500px] opacity-5 pointer-events-none">
-        <FloralDecoration />
-      </div>
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-60 h-60 md:w-80 md:h-80 opacity-5 pointer-events-none rotate-180">
-        <FloralDecoration />
       </div>
 
       {/* Content */}
@@ -113,40 +118,3 @@ function WhatsAppIcon({ className }: { className?: string }) {
   )
 }
 
-function FloralDecoration() {
-  return (
-    <svg viewBox="0 0 200 200" fill="currentColor" className="text-brand-gold w-full h-full">
-      <circle cx="100" cy="100" r="8" />
-      {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => {
-        const rad = (angle * Math.PI) / 180
-        const x = 100 + 40 * Math.cos(rad)
-        const y = 100 + 40 * Math.sin(rad)
-        return (
-          <ellipse
-            key={angle}
-            cx={x}
-            cy={y}
-            rx="12"
-            ry="22"
-            transform={`rotate(${angle + 90}, ${x}, ${y})`}
-          />
-        )
-      })}
-      {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => {
-        const rad = (angle * Math.PI) / 180
-        const x = 100 + 80 * Math.cos(rad)
-        const y = 100 + 80 * Math.sin(rad)
-        return (
-          <ellipse
-            key={`outer-${angle}`}
-            cx={x}
-            cy={y}
-            rx="8"
-            ry="16"
-            transform={`rotate(${angle + 90}, ${x}, ${y})`}
-          />
-        )
-      })}
-    </svg>
-  )
-}
