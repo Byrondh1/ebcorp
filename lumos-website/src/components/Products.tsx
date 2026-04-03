@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { PRODUCTS, CATEGORY_LABELS, type ProductCategory } from '@/data/products'
 import { getWhatsAppProductUrl } from '@/lib/constants'
+import Animate from '@/components/Animate'
 
 export default function Products() {
   const [activeCategory, setActiveCategory] = useState<ProductCategory | 'all'>('all')
@@ -51,8 +52,9 @@ export default function Products() {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((product) => (
-            <div key={product.id} className="card-dark relative group flex flex-col">
+          {filtered.map((product, idx) => (
+            <Animate key={`${product.id}-${activeCategory}`} animation="fade-up" delay={(idx % 3) * 100}>
+            <div className="card-dark relative group flex flex-col h-full">
               {/* Featured Badge */}
               {product.isFeatured && (
                 <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 bg-brand-gold text-brand-black text-xs font-bold px-3 py-1 rounded-full">
@@ -101,6 +103,7 @@ export default function Products() {
                 </a>
               </div>
             </div>
+            </Animate>
           ))}
         </div>
 

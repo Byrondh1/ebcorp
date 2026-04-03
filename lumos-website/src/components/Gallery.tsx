@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { SOCIAL } from '@/lib/constants'
+import Animate from '@/components/Animate'
 
 const GALLERY_ITEMS = [
   { id: 1, label: 'Velas de Rosas',        category: 'Florales',    image: '/images/gallery/gallery-1.jpg' },
@@ -22,26 +23,27 @@ export default function Gallery() {
     <section id="galeria" className="py-20 md:py-28 bg-zinc-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <span className="text-brand-gold text-xs font-semibold tracking-widest uppercase mb-3 block">
-            Galería
-          </span>
-          <h2 className="section-heading">Nuestras Creaciones</h2>
-          <span className="gold-line" />
-          <p className="text-brand-gray mt-6 max-w-xl mx-auto">
-            Cada pieza cuenta una historia. Aquí te mostramos algunos de nuestros trabajos.
-          </p>
-        </div>
+        <Animate animation="fade-up">
+          <div className="text-center mb-12">
+            <span className="text-brand-gold text-xs font-semibold tracking-widest uppercase mb-3 block">
+              Galería
+            </span>
+            <h2 className="section-heading">Nuestras Creaciones</h2>
+            <span className="gold-line" />
+            <p className="text-brand-gray mt-6 max-w-xl mx-auto">
+              Cada pieza cuenta una historia. Aquí te mostramos algunos de nuestros trabajos.
+            </p>
+          </div>
+        </Animate>
 
         {/* Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           {GALLERY_ITEMS.map((item, idx) => (
+            <Animate key={item.id} animation="fade-in" delay={idx * 80} className={idx === 0 || idx === 4 ? 'row-span-2' : ''}>
             <button
               key={item.id}
               onClick={() => setLightbox(idx)}
-              className={`relative overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/40 transition-all duration-300 group cursor-pointer ${
-                idx === 0 || idx === 4 ? 'row-span-2' : ''
-              }`}
+              className="relative overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/40 transition-all duration-300 group cursor-pointer w-full h-full"
               style={{ minHeight: idx === 0 || idx === 4 ? '400px' : '180px' }}
             >
               {/* Real photo */}
@@ -69,10 +71,12 @@ export default function Gallery() {
                 </div>
               </div>
             </button>
+            </Animate>
           ))}
         </div>
 
         {/* Instagram CTA */}
+        <Animate animation="fade-up">
         <div className="mt-12 text-center p-8 rounded-2xl bg-zinc-900 border border-zinc-800">
           <p className="text-brand-gray mb-2">¿Quieres ver más de nuestras creaciones?</p>
           <p className="text-brand-white font-semibold mb-6 font-heading text-xl">
@@ -108,6 +112,7 @@ export default function Gallery() {
             </a>
           </div>
         </div>
+        </Animate>
       </div>
 
       {/* Lightbox */}

@@ -1,4 +1,5 @@
 import { WHATSAPP_URL, EMAIL, SOCIAL } from '@/lib/constants'
+import Animate from '@/components/Animate'
 
 export default function Contact() {
   const whatsappMessage = encodeURIComponent(
@@ -9,81 +10,88 @@ export default function Contact() {
     <section id="contacto" className="py-20 md:py-28 bg-zinc-950">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Header */}
-        <span className="text-brand-gold text-xs font-semibold tracking-widest uppercase mb-3 block">
-          Contacto
-        </span>
-        <h2 className="section-heading mb-4">¿Tienes algo en mente?</h2>
-        <span className="gold-line" />
-
-        <p className="text-brand-gray text-lg mt-8 mb-3">
-          Diseñamos la vela perfecta para ti.
-        </p>
-        <p className="text-brand-white font-heading italic text-2xl mb-10">
-          ¡Escríbenos y hagámoslo realidad!
-        </p>
+        <Animate animation="fade-up">
+          <span className="text-brand-gold text-xs font-semibold tracking-widest uppercase mb-3 block">
+            Contacto
+          </span>
+          <h2 className="section-heading mb-4">¿Tienes algo en mente?</h2>
+          <span className="gold-line" />
+          <p className="text-brand-gray text-lg mt-8 mb-3">
+            Diseñamos la vela perfecta para ti.
+          </p>
+          <p className="text-brand-white font-heading italic text-2xl mb-10">
+            ¡Escríbenos y hagámoslo realidad!
+          </p>
+        </Animate>
 
         {/* Main WhatsApp CTA */}
-        <a
-          href={`${WHATSAPP_URL}?text=${whatsappMessage}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-3 bg-[#25D366] text-white font-bold text-lg px-8 py-4 rounded-full hover:bg-[#20bd5a] transition-all duration-300 shadow-xl shadow-[#25D366]/20 hover:shadow-[#25D366]/30 hover:scale-105 active:scale-100 mb-12"
-        >
-          <WhatsAppIcon className="w-6 h-6" />
-          Escríbenos por WhatsApp
-        </a>
+        <Animate animation="fade-up" delay={150}>
+          <a
+            href={`${WHATSAPP_URL}?text=${whatsappMessage}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-[#25D366] text-white font-bold text-lg px-8 py-4 rounded-full hover:bg-[#20bd5a] transition-all duration-300 shadow-xl shadow-[#25D366]/20 hover:shadow-[#25D366]/30 hover:scale-105 active:scale-100 mb-12"
+          >
+            <WhatsAppIcon className="w-6 h-6" />
+            Escríbenos por WhatsApp
+          </a>
 
-        {/* Availability badge */}
-        <div className="flex items-center justify-center gap-2 mb-12">
-          <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          <span className="text-brand-gray text-sm">Siempre disponibles para atenderte</span>
-          <span className="text-brand-gold">✦</span>
-        </div>
+          {/* Availability badge */}
+          <div className="flex items-center justify-center gap-2 mb-12">
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+            <span className="text-brand-gray text-sm">Siempre disponibles para atenderte</span>
+            <span className="text-brand-gold">✦</span>
+          </div>
+        </Animate>
 
         {/* Divider */}
-        <div className="flex items-center gap-4 mb-12">
-          <div className="flex-1 h-px bg-zinc-800" />
-          <span className="text-brand-gold text-xs uppercase tracking-widest">También puedes encontrarnos en</span>
-          <div className="flex-1 h-px bg-zinc-800" />
-        </div>
+        <Animate animation="fade-in" delay={250}>
+          <div className="flex items-center gap-4 mb-12">
+            <div className="flex-1 h-px bg-zinc-800" />
+            <span className="text-brand-gold text-xs uppercase tracking-widest">También puedes encontrarnos en</span>
+            <div className="flex-1 h-px bg-zinc-800" />
+          </div>
+        </Animate>
 
         {/* Social links */}
-        <div className="flex justify-center gap-4 flex-wrap mb-12">
-          <a
-            href={SOCIAL.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/40 hover:text-brand-gold text-brand-gray transition-all text-sm group"
-          >
-            <InstagramIcon className="w-5 h-5 group-hover:text-pink-400 transition-colors" />
-            <span>@lumos.by.paola</span>
-          </a>
-          <a
-            href={SOCIAL.facebook}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/40 hover:text-brand-gold text-brand-gray transition-all text-sm group"
-          >
-            <FacebookIcon className="w-5 h-5 group-hover:text-blue-400 transition-colors" />
-            <span>Lumos By Paola</span>
-          </a>
-          <a
-            href={SOCIAL.tiktok}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/40 hover:text-brand-gold text-brand-gray transition-all text-sm group"
-          >
-            <TikTokIcon className="w-5 h-5 group-hover:text-white transition-colors" />
-            <span>@lumos.by.paola</span>
-          </a>
-          <a
-            href={`mailto:${EMAIL}`}
-            className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/40 hover:text-brand-gold text-brand-gray transition-all text-sm group"
-          >
-            <EmailIcon className="w-5 h-5 group-hover:text-brand-gold transition-colors" />
-            <span>{EMAIL}</span>
-          </a>
-        </div>
+        <Animate animation="fade-up" delay={350}>
+          <div className="flex justify-center gap-4 flex-wrap mb-12">
+            <a
+              href={SOCIAL.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/40 hover:text-brand-gold text-brand-gray transition-all text-sm group"
+            >
+              <InstagramIcon className="w-5 h-5 group-hover:text-pink-400 transition-colors" />
+              <span>@lumos.by.paola</span>
+            </a>
+            <a
+              href={SOCIAL.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/40 hover:text-brand-gold text-brand-gray transition-all text-sm group"
+            >
+              <FacebookIcon className="w-5 h-5 group-hover:text-blue-400 transition-colors" />
+              <span>Lumos By Paola</span>
+            </a>
+            <a
+              href={SOCIAL.tiktok}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/40 hover:text-brand-gold text-brand-gray transition-all text-sm group"
+            >
+              <TikTokIcon className="w-5 h-5 group-hover:text-white transition-colors" />
+              <span>@lumos.by.paola</span>
+            </a>
+            <a
+              href={`mailto:${EMAIL}`}
+              className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/40 hover:text-brand-gold text-brand-gray transition-all text-sm group"
+            >
+              <EmailIcon className="w-5 h-5 group-hover:text-brand-gold transition-colors" />
+              <span>{EMAIL}</span>
+            </a>
+          </div>
+        </Animate>
       </div>
     </section>
   )

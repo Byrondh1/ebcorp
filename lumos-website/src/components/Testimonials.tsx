@@ -1,3 +1,5 @@
+import Animate from '@/components/Animate'
+
 const TESTIMONIALS = [
   {
     name: 'Jasmín Pinchao',
@@ -27,61 +29,64 @@ export default function Testimonials() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-14">
-          <span className="text-brand-gold text-xs font-semibold tracking-widest uppercase mb-3 block">
-            Testimonios
-          </span>
-          <h2 className="section-heading">Lo que dicen nuestros clientes</h2>
-          <span className="gold-line" />
-        </div>
+        <Animate animation="fade-up">
+          <div className="text-center mb-14">
+            <span className="text-brand-gold text-xs font-semibold tracking-widest uppercase mb-3 block">
+              Testimonios
+            </span>
+            <h2 className="section-heading">Lo que dicen nuestros clientes</h2>
+            <span className="gold-line" />
+          </div>
+        </Animate>
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {TESTIMONIALS.map((t) => (
-            <div
-              key={t.name}
-              className="relative p-7 rounded-3xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/30 transition-all duration-300 group flex flex-col"
-            >
-              {/* Quote mark */}
-              <div className="absolute top-5 right-6 text-6xl font-heading text-brand-gold/10 leading-none select-none">
-                &ldquo;
-              </div>
-
-              {/* Stars */}
-              <div className="flex gap-1 mb-5">
-                {[...Array(5)].map((_, i) => (
-                  <StarIcon key={i} className="w-4 h-4 text-brand-gold" />
-                ))}
-              </div>
-
-              {/* Text */}
-              <p className="text-brand-gray leading-relaxed flex-1 mb-6 text-sm md:text-base">
-                &ldquo;{t.text}&rdquo;
-              </p>
-
-              {/* Author */}
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm text-brand-black flex-shrink-0"
-                  style={{ backgroundColor: t.color }}
-                >
-                  {t.initials}
+          {TESTIMONIALS.map((t, idx) => (
+            <Animate key={t.name} animation="fade-up" delay={idx * 150}>
+              <div className="relative p-7 rounded-3xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/30 transition-all duration-300 group flex flex-col h-full">
+                {/* Quote mark */}
+                <div className="absolute top-5 right-6 text-6xl font-heading text-brand-gold/10 leading-none select-none">
+                  &ldquo;
                 </div>
-                <div>
-                  <p className="font-semibold text-brand-white text-sm">{t.name}</p>
-                  <p className="text-brand-gray text-xs">Cliente verificado</p>
+
+                {/* Stars */}
+                <div className="flex gap-1 mb-5">
+                  {[...Array(5)].map((_, i) => (
+                    <StarIcon key={i} className="w-4 h-4 text-brand-gold" />
+                  ))}
+                </div>
+
+                {/* Text */}
+                <p className="text-brand-gray leading-relaxed flex-1 mb-6 text-sm md:text-base">
+                  &ldquo;{t.text}&rdquo;
+                </p>
+
+                {/* Author */}
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm text-brand-black flex-shrink-0"
+                    style={{ backgroundColor: t.color }}
+                  >
+                    {t.initials}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-brand-white text-sm">{t.name}</p>
+                    <p className="text-brand-gray text-xs">Cliente verificado</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Animate>
           ))}
         </div>
 
         {/* Tagline */}
-        <div className="mt-14 text-center">
-          <p className="font-heading italic text-xl text-brand-gold/70">
-            &ldquo;Cada vela cuenta tu historia&rdquo;
-          </p>
-        </div>
+        <Animate animation="fade-up" delay={300}>
+          <div className="mt-14 text-center">
+            <p className="font-heading italic text-xl text-brand-gold/70">
+              &ldquo;Cada vela cuenta tu historia&rdquo;
+            </p>
+          </div>
+        </Animate>
       </div>
     </section>
   )

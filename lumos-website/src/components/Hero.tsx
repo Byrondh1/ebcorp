@@ -27,7 +27,10 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto pt-20">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-brand-gold/10 border border-brand-gold/30 rounded-full px-4 py-2 mb-8">
+        <div
+          className="hero-anim inline-flex items-center gap-2 bg-brand-gold/10 border border-brand-gold/30 rounded-full px-4 py-2 mb-8"
+          style={{ animationDelay: '0.1s' }}
+        >
           <span className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />
           <span className="text-brand-gold text-xs font-semibold tracking-widest uppercase">
             Velas Artesanales
@@ -35,7 +38,10 @@ export default function Hero() {
         </div>
 
         {/* Main heading */}
-        <h1 className="font-heading font-semibold text-5xl md:text-7xl lg:text-8xl mb-4 leading-tight">
+        <h1
+          className="hero-anim font-heading font-semibold text-5xl md:text-7xl lg:text-8xl mb-4 leading-tight"
+          style={{ animationDelay: '0.3s' }}
+        >
           <span className="text-gradient-gold">Lumos</span>
           <br />
           <span className="text-brand-white text-3xl md:text-4xl lg:text-5xl font-normal italic">
@@ -44,25 +50,37 @@ export default function Hero() {
         </h1>
 
         {/* Decorative line */}
-        <div className="flex items-center justify-center gap-4 my-6">
+        <div
+          className="hero-anim flex items-center justify-center gap-4 my-6"
+          style={{ animationDelay: '0.5s' }}
+        >
           <div className="h-px w-16 bg-gradient-to-r from-transparent to-brand-gold" />
           <FlowerIcon className="w-5 h-5 text-brand-gold" />
           <div className="h-px w-16 bg-gradient-to-l from-transparent to-brand-gold" />
         </div>
 
         {/* Slogan */}
-        <p className="font-heading italic text-xl md:text-2xl lg:text-3xl text-brand-cream/90 mb-4">
+        <p
+          className="hero-anim font-heading italic text-xl md:text-2xl lg:text-3xl text-brand-cream/90 mb-4"
+          style={{ animationDelay: '0.6s' }}
+        >
           &ldquo;Transforma tu espacio con un destello de aroma&rdquo;
         </p>
 
         {/* Description */}
-        <p className="text-brand-gray text-base md:text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p
+          className="hero-anim text-brand-gray text-base md:text-lg max-w-2xl mx-auto mb-10 leading-relaxed"
+          style={{ animationDelay: '0.75s' }}
+        >
           Velas florales artesanales elaboradas 100% a mano. Diseños únicos y personalizados
           para eventos, regalos y momentos especiales.
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <div
+          className="hero-anim flex flex-col sm:flex-row gap-4 justify-center items-center"
+          style={{ animationDelay: '0.9s' }}
+        >
           <a href="#productos" className="btn-gold text-base px-8 py-4 shadow-lg shadow-brand-gold/20">
             <span>Ver Productos</span>
             <ArrowDownIcon className="w-4 h-4" />
@@ -79,7 +97,10 @@ export default function Hero() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="mt-16 flex justify-center animate-bounce">
+        <div
+          className="hero-anim mt-16 flex justify-center animate-bounce"
+          style={{ animationDelay: '1.1s' }}
+        >
           <a href="#nosotros" className="text-brand-gold/50 hover:text-brand-gold transition-colors">
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
@@ -114,4 +135,3 @@ function WhatsAppIcon({ className }: { className?: string }) {
     </svg>
   )
 }
-
