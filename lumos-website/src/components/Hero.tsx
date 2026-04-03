@@ -6,14 +6,11 @@ export default function Hero() {
       id="inicio"
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero"
     >
-      {/* Background photo — fallback silencioso al gradiente si no existe */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/images/hero/hero.jpg"
-        alt=""
+      {/* Background photo — usa CSS background-image; si no existe la imagen, el gradiente del section actúa de fallback */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/images/hero/hero.jpg')" }}
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover object-center"
-        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
       />
 
       {/* Dark overlay para legibilidad del texto */}
