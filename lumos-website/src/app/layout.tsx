@@ -1,5 +1,9 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
+
+export const viewport: Viewport = {
+  themeColor: '#0A0A0A',
+}
 
 const SITE_URL = 'https://byrondh1.github.io/lumos-paola'
 

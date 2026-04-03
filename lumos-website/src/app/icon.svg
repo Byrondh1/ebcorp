@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="#0A0A0A"/>
+  <!-- Flame -->
+  <path d="M16 4C13.2 8.5 12 11.5 12 14C12 16.2 13.8 18 16 18C18.2 18 20 16.2 20 14C20 11.5 18.8 8.5 16 4Z" fill="#C9A84C"/>
+  <!-- Inner flame highlight -->
+  <path d="M16 8C14.8 10.5 14.2 12.2 14.2 13.5C14.2 14.7 15 15.5 16 15.5C17 15.5 17.8 14.7 17.8 13.5C17.8 12.2 17.2 10.5 16 8Z" fill="#E8C96A" opacity="0.6"/>
+  <!-- Wick -->
+  <rect x="15.2" y="17.5" width="1.6" height="2" rx="0.8" fill="#7A5C1E"/>
+  <!-- Candle body -->
+  <rect x="10" y="19" width="12" height="9" rx="2" fill="#C9A84C"/>
+  <!-- Candle shine -->
+  <rect x="11.5" y="20.5" width="1.5" height="5.5" rx="0.75" fill="#E8C96A" opacity="0.4"/>
+</svg>
