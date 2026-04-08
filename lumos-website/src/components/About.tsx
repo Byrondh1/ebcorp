@@ -1,6 +1,33 @@
+'use client'
+
 import Animate from '@/components/Animate'
+import { useGitHubImages } from '@/lib/useGitHubImages'
+
+// Static fallback paths — used until the GitHub API responds
+const FALLBACK_ABOUT = [
+  '/images/about/about-1.jpg',
+  '/images/about/about-2.jpg',
+  '/images/about/about-3.jpg',
+  '/images/about/about-4.jpg',
+  '/images/about/about-5.jpg',
+  '/images/about/about-6.jpg',
+  '/images/about/about-7.jpg',
+  '/images/about/about-8.jpg',
+  '/images/about/about-9.jpg',
+  '/images/about/about-10.jpg',
+  '/images/about/about-11.jpg',
+  '/images/about/about-12.jpg',
+  '/images/about/about-13.jpg',
+]
 
 export default function About() {
+  // All images come from the GitHub API (auto-discovers any file uploaded to the folder)
+  const allImages = useGitHubImages('about', FALLBACK_ABOUT)
+
+  // First 3 → main collage; the rest → horizontal strip
+  const collage = allImages.slice(0, 3)
+  const strip   = allImages.slice(3)
+
   return (
     <section id="nosotros" className="py-20 md:py-28 bg-zinc-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,37 +67,43 @@ export default function About() {
             </div>
           </Animate>
 
-          {/* Photo Collage */}
+          {/* Photo Collage — auto-fills from `about` folder */}
           <Animate animation="fade-right">
             <div className="grid grid-cols-2 gap-3" style={{ gridTemplateRows: '220px 200px' }}>
-              {/* Large image — spans full width */}
-              <div className="col-span-2 rounded-2xl overflow-hidden">
-                <img
-                  src="/images/about/about-1.jpg"
-                  alt="Ramos de velas artesanales de girasoles"
-                  className="w-full h-full object-cover"
-                />
+              {/* Large image — full width */}
+              <div className="col-span-2 rounded-2xl overflow-hidden bg-zinc-800">
+                {collage[0] && (
+                  <img
+                    src={collage[0]}
+                    alt="Lumos by Paola — foto principal"
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </div>
-              {/* Two smaller images below */}
-              <div className="rounded-2xl overflow-hidden">
-                <img
-                  src="/images/about/about-2.jpg"
-                  alt="Vela Lupita en caja de regalo"
-                  className="w-full h-full object-cover"
-                />
+              {/* Two smaller images */}
+              <div className="rounded-2xl overflow-hidden bg-zinc-800">
+                {collage[1] && (
+                  <img
+                    src={collage[1]}
+                    alt="Lumos by Paola — segunda foto"
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </div>
-              <div className="rounded-2xl overflow-hidden">
-                <img
-                  src="/images/about/about-3.jpg"
-                  alt="Arreglo de velas rosas en cajas corazón"
-                  className="w-full h-full object-cover"
-                />
+              <div className="rounded-2xl overflow-hidden bg-zinc-800">
+                {collage[2] && (
+                  <img
+                    src={collage[2]}
+                    alt="Lumos by Paola — tercera foto"
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </div>
             </div>
           </Animate>
         </div>
 
-        {/* Feature Cards — full width row */}
+        {/* Feature Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-16">
           {FEATURES.map((feature, idx) => (
             <Animate key={feature.title} animation="fade-up" delay={idx * 150}>
@@ -87,23 +120,25 @@ export default function About() {
           ))}
         </div>
 
-        {/* Additional photos strip */}
-        <Animate animation="fade-up">
-          <div className="flex gap-3 overflow-x-auto pb-2 mb-16 scrollbar-hide">
-            {EXTRA_PHOTOS.map((photo) => (
-              <div
-                key={photo.src}
-                className="flex-shrink-0 w-48 h-48 rounded-2xl overflow-hidden"
-              >
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-            ))}
-          </div>
-        </Animate>
+        {/* Additional photos strip — shows ALL remaining images */}
+        {strip.length > 0 && (
+          <Animate animation="fade-up">
+            <div className="flex gap-3 overflow-x-auto pb-2 mb-16 scrollbar-hide">
+              {strip.map((src, i) => (
+                <div
+                  key={src}
+                  className="flex-shrink-0 w-48 h-48 rounded-2xl overflow-hidden"
+                >
+                  <img
+                    src={src}
+                    alt={`Lumos by Paola — foto ${i + 4}`}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+              ))}
+            </div>
+          </Animate>
+        )}
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-16 border-t border-zinc-800">
@@ -142,19 +177,6 @@ const FEATURES = [
       'Cada vela pasa por un proceso artesanal cuidadoso. No hay dos iguales — eso las hace especiales.',
     Icon: HandIcon,
   },
-]
-
-const EXTRA_PHOTOS = [
-  { src: '/images/about/about-4.jpg',  alt: 'Bouquet de velas girasoles y margaritas' },
-  { src: '/images/about/about-5.jpg',  alt: 'Vela Lupita sostenida en mano' },
-  { src: '/images/about/about-6.jpg',  alt: 'Detalle artesanal de velas florales' },
-  { src: '/images/about/about-7.jpg',  alt: 'Arreglo especial de velas Lumos by Paola' },
-  { src: '/images/about/about-8.jpg',  alt: 'Proceso de elaboración artesanal' },
-  { src: '/images/about/about-9.jpg',  alt: 'Velas aromáticas personalizadas' },
-  { src: '/images/about/about-10.jpg', alt: 'Colección de velas florales' },
-  { src: '/images/about/about-11.jpg', alt: 'Arreglo floral con velas artesanales' },
-  { src: '/images/about/about-12.jpg', alt: 'Caja de regalo con velas Lumos by Paola' },
-  { src: '/images/about/about-13.jpg', alt: 'Velas artesanales hechas a mano en Ecuador' },
 ]
 
 const STATS = [

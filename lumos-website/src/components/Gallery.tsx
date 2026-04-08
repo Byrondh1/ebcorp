@@ -3,20 +3,24 @@
 import { useState } from 'react'
 import { SOCIAL } from '@/lib/constants'
 import Animate from '@/components/Animate'
+import { useGitHubImages, fileLabel } from '@/lib/useGitHubImages'
+import Lightbox from '@/components/Lightbox'
 
-const GALLERY_ITEMS = [
-  { id: 1, label: 'Velas de Rosas',        category: 'Florales',    image: '/images/gallery/gallery-1.jpg' },
-  { id: 2, label: 'La Lupita',             category: 'Religiosas',  image: '/images/gallery/gallery-2.jpg' },
-  { id: 3, label: 'Arreglo Floral',        category: 'Arreglos',    image: '/images/gallery/gallery-3.jpg' },
-  { id: 4, label: 'Velas de Peonías',      category: 'Florales',    image: '/images/gallery/gallery-4.jpg' },
-  { id: 5, label: 'Caja Premium',          category: 'Premium',     image: '/images/gallery/gallery-5.jpg' },
-  { id: 6, label: 'Velas de Girasoles',    category: 'Florales',    image: '/images/gallery/gallery-6.jpg' },
-  { id: 7, label: 'Canasta de Regalo',     category: 'Arreglos',    image: '/images/gallery/gallery-7.jpg' },
-  { id: 8, label: 'Recordatorio de Boda',  category: 'Especiales',  image: '/images/gallery/gallery-8.jpg' },
-  { id: 9, label: 'Caja I ❤️ U',          category: 'Premium',     image: '/images/gallery/gallery-9.jpg' },
+// Static fallback paths — used until the GitHub API responds
+const FALLBACK_GALLERY = [
+  '/images/gallery/gallery-1.jpg',
+  '/images/gallery/gallery-2.jpg',
+  '/images/gallery/gallery-3.jpg',
+  '/images/gallery/gallery-4.jpg',
+  '/images/gallery/gallery-5.jpg',
+  '/images/gallery/gallery-6.jpg',
+  '/images/gallery/gallery-7.jpg',
+  '/images/gallery/gallery-8.jpg',
+  '/images/gallery/gallery-9.jpg',
 ]
 
 export default function Gallery() {
+  const images = useGitHubImages('gallery', FALLBACK_GALLERY)
   const [lightbox, setLightbox] = useState<number | null>(null)
 
   return (
@@ -36,118 +40,96 @@ export default function Gallery() {
           </div>
         </Animate>
 
-        {/* Grid */}
+        {/* Grid — auto-fills with any image uploaded to the gallery folder */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-          {GALLERY_ITEMS.map((item, idx) => (
-            <Animate key={item.id} animation="fade-in" delay={idx * 80} className={idx === 0 || idx === 4 ? 'row-span-2' : ''}>
-            <button
-              key={item.id}
-              onClick={() => setLightbox(idx)}
-              className="relative overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/40 transition-all duration-300 group cursor-pointer w-full h-full"
-              style={{ minHeight: idx === 0 || idx === 4 ? '400px' : '180px' }}
-            >
-              {/* Real photo */}
-              <img
-                src={item.image}
-                alt={item.label}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
+          {images.map((src, idx) => {
+            const isLarge = idx === 0 || idx === 4
+            return (
+              <Animate
+                key={src}
+                animation="fade-in"
+                delay={idx * 80}
+                className={isLarge ? 'row-span-2' : ''}
+              >
+                <button
+                  onClick={() => setLightbox(idx)}
+                  className="relative overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-brand-gold/40 transition-all duration-300 group cursor-pointer w-full h-full"
+                  style={{ minHeight: isLarge ? '400px' : '180px' }}
+                  aria-label={`Ver ${fileLabel(src)}`}
+                >
+                  <img
+                    src={src}
+                    alt={fileLabel(src)}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-black/80 via-brand-black/10 to-transparent" />
 
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-black/80 via-brand-black/10 to-transparent" />
+                  {/* Label */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 text-left">
+                    <span className="text-brand-white text-sm font-medium">{fileLabel(src)}</span>
+                  </div>
 
-              {/* Label */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 text-left">
-                <span className="text-xs font-semibold uppercase tracking-widest text-brand-gold block mb-0.5">
-                  {item.category}
-                </span>
-                <span className="text-brand-white text-sm font-medium">{item.label}</span>
-              </div>
-
-              {/* Zoom icon on hover */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="bg-brand-black/60 rounded-full p-3 backdrop-blur-sm">
-                  <ZoomIcon className="w-5 h-5 text-brand-gold" />
-                </div>
-              </div>
-            </button>
-            </Animate>
-          ))}
+                  {/* Zoom icon on hover */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="bg-brand-black/60 rounded-full p-3 backdrop-blur-sm">
+                      <ZoomIcon className="w-5 h-5 text-brand-gold" />
+                    </div>
+                  </div>
+                </button>
+              </Animate>
+            )
+          })}
         </div>
 
         {/* Instagram CTA */}
         <Animate animation="fade-up">
-        <div className="mt-12 text-center p-8 rounded-2xl bg-zinc-900 border border-zinc-800">
-          <p className="text-brand-gray mb-2">¿Quieres ver más de nuestras creaciones?</p>
-          <p className="text-brand-white font-semibold mb-6 font-heading text-xl">
-            Síguenos en redes sociales
-          </p>
-          <div className="flex justify-center gap-4 flex-wrap">
-            <a
-              href={SOCIAL.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 text-white font-semibold px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity text-sm"
-            >
-              <InstagramIcon className="w-4 h-4" />
-              Instagram
-            </a>
-            <a
-              href={SOCIAL.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-blue-600 text-white font-semibold px-5 py-2.5 rounded-full hover:bg-blue-700 transition-colors text-sm"
-            >
-              <FacebookIcon className="w-4 h-4" />
-              Facebook
-            </a>
-            <a
-              href={SOCIAL.tiktok}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 text-white font-semibold px-5 py-2.5 rounded-full hover:border-brand-gold/40 transition-colors text-sm"
-            >
-              <TikTokIcon className="w-4 h-4" />
-              TikTok
-            </a>
+          <div className="mt-12 text-center p-8 rounded-2xl bg-zinc-900 border border-zinc-800">
+            <p className="text-brand-gray mb-2">¿Quieres ver más de nuestras creaciones?</p>
+            <p className="text-brand-white font-semibold mb-6 font-heading text-xl">
+              Síguenos en redes sociales
+            </p>
+            <div className="flex justify-center gap-4 flex-wrap">
+              <a
+                href={SOCIAL.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 text-white font-semibold px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity text-sm"
+              >
+                <InstagramIcon className="w-4 h-4" />
+                Instagram
+              </a>
+              <a
+                href={SOCIAL.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 bg-blue-600 text-white font-semibold px-5 py-2.5 rounded-full hover:bg-blue-700 transition-colors text-sm"
+              >
+                <FacebookIcon className="w-4 h-4" />
+                Facebook
+              </a>
+              <a
+                href={SOCIAL.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 text-white font-semibold px-5 py-2.5 rounded-full hover:border-brand-gold/40 transition-colors text-sm"
+              >
+                <TikTokIcon className="w-4 h-4" />
+                TikTok
+              </a>
+            </div>
           </div>
-        </div>
         </Animate>
       </div>
 
       {/* Lightbox */}
       {lightbox !== null && (
-        <div
-          className="fixed inset-0 bg-brand-black/95 z-50 flex items-center justify-center p-4"
-          onClick={() => setLightbox(null)}
-        >
-          <button
-            className="absolute top-6 right-6 text-brand-gray hover:text-brand-white transition-colors"
-            onClick={() => setLightbox(null)}
-          >
-            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-          <div
-            className="max-w-2xl w-full"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <img
-              src={GALLERY_ITEMS[lightbox].image}
-              alt={GALLERY_ITEMS[lightbox].label}
-              className="w-full max-h-[75vh] object-contain rounded-2xl"
-            />
-            <div className="mt-4 text-center">
-              <span className="text-brand-gold text-xs font-semibold uppercase tracking-widest block">
-                {GALLERY_ITEMS[lightbox].category}
-              </span>
-              <h3 className="font-heading text-xl text-brand-white mt-1">
-                {GALLERY_ITEMS[lightbox].label}
-              </h3>
-            </div>
-          </div>
-        </div>
+        <Lightbox
+          images={images}
+          index={lightbox}
+          title="Lumos by Paola"
+          onClose={() => setLightbox(null)}
+          onNavigate={(i) => setLightbox(i)}
+        />
       )}
     </section>
   )
