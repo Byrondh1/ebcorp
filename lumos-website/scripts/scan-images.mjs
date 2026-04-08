@@ -15,16 +15,21 @@ const root      = join(__dirname, '..')
 const publicDir = join(root, 'public', 'images')
 const outFile   = join(root, 'src', 'data', 'site-images.ts')
 
+// Read basePath from next.config.mjs so generated URLs match the deployed site.
+// With basePath='/lumos-paola', public files are served at /lumos-paola/images/...
+import nextConfig from '../next.config.mjs'
+const BASE_PATH = (nextConfig.basePath ?? '').replace(/\/$/, '')
+
 const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif'])
 
-/** Returns sorted list of image paths relative to /public (served as /images/...) */
+/** Returns sorted list of image paths prefixed with basePath (e.g. /lumos-paola/images/...) */
 function scanFolder(folder) {
   const dir = join(publicDir, folder)
   if (!existsSync(dir)) return []
   return readdirSync(dir)
     .filter((f) => IMAGE_EXTS.has(extname(f).toLowerCase()))
     .sort()
-    .map((f) => `/images/${folder}/${f}`)
+    .map((f) => `${BASE_PATH}/images/${folder}/${f}`)
 }
 
 /** Scans one level of subfolders inside a parent folder (e.g. products/rosas/) */

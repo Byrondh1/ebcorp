@@ -1,4 +1,5 @@
 import { WHATSAPP_URL } from '@/lib/constants'
+import { assetPath } from '@/lib/assetPath'
 
 export default function Hero() {
   return (
@@ -9,7 +10,7 @@ export default function Hero() {
       {/* Background photo — usa CSS background-image; si no existe la imagen, el gradiente del section actúa de fallback */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/images/hero/hero.jpg')" }}
+        style={{ backgroundImage: `url('${assetPath('/images/hero/hero.jpg')}')` }}
         aria-hidden="true"
       />
 
