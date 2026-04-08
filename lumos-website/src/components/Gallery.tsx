@@ -3,24 +3,20 @@
 import { useState } from 'react'
 import { SOCIAL } from '@/lib/constants'
 import Animate from '@/components/Animate'
-import { useGitHubImages, fileLabel } from '@/lib/useGitHubImages'
 import Lightbox from '@/components/Lightbox'
+import { GALLERY_IMAGES } from '@/data/site-images'
 
-// Static fallback paths — used until the GitHub API responds
-const FALLBACK_GALLERY = [
-  '/images/gallery/gallery-1.jpg',
-  '/images/gallery/gallery-2.jpg',
-  '/images/gallery/gallery-3.jpg',
-  '/images/gallery/gallery-4.jpg',
-  '/images/gallery/gallery-5.jpg',
-  '/images/gallery/gallery-6.jpg',
-  '/images/gallery/gallery-7.jpg',
-  '/images/gallery/gallery-8.jpg',
-  '/images/gallery/gallery-9.jpg',
-]
+function fileLabel(src: string): string {
+  const filename = src.split('/').pop() ?? ''
+  return filename
+    .replace(/\.[^.]+$/, '')
+    .replace(/[-_]+/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+}
 
 export default function Gallery() {
-  const images = useGitHubImages('gallery', FALLBACK_GALLERY)
+  // Built at compile time by scripts/scan-images.mjs
+  const images = GALLERY_IMAGES
   const [lightbox, setLightbox] = useState<number | null>(null)
 
   return (

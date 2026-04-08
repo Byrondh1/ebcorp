@@ -29,6 +29,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Scan images
+        run: node scripts/scan-images.mjs
+
       - name: Build
         run: npm run build
 

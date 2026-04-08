@@ -1,28 +1,9 @@
-'use client'
-
 import Animate from '@/components/Animate'
-import { useGitHubImages } from '@/lib/useGitHubImages'
-
-// Static fallback paths — used until the GitHub API responds
-const FALLBACK_ABOUT = [
-  '/images/about/about-1.jpg',
-  '/images/about/about-2.jpg',
-  '/images/about/about-3.jpg',
-  '/images/about/about-4.jpg',
-  '/images/about/about-5.jpg',
-  '/images/about/about-6.jpg',
-  '/images/about/about-7.jpg',
-  '/images/about/about-8.jpg',
-  '/images/about/about-9.jpg',
-  '/images/about/about-10.jpg',
-  '/images/about/about-11.jpg',
-  '/images/about/about-12.jpg',
-  '/images/about/about-13.jpg',
-]
+import { ABOUT_IMAGES } from '@/data/site-images'
 
 export default function About() {
-  // All images come from the GitHub API (auto-discovers any file uploaded to the folder)
-  const allImages = useGitHubImages('about', FALLBACK_ABOUT)
+  // Built at compile time by scripts/scan-images.mjs
+  const allImages = ABOUT_IMAGES
 
   // First 3 → main collage; the rest → horizontal strip
   const collage = allImages.slice(0, 3)
