@@ -4,9 +4,17 @@ import { useState } from 'react'
 import { PRODUCTS, CATEGORY_LABELS, type ProductCategory } from '@/data/products'
 import { getWhatsAppProductUrl } from '@/lib/constants'
 import Animate from '@/components/Animate'
+import Lightbox from '@/components/Lightbox'
+
+interface LightboxState {
+  images: string[]
+  index: number
+  title: string
+}
 
 export default function Products() {
   const [activeCategory, setActiveCategory] = useState<ProductCategory | 'all'>('all')
+  const [lightbox, setLightbox] = useState<LightboxState | null>(null)
 
   const categories: Array<ProductCategory | 'all'> = ['all', 'floral', 'special', 'arrangements', 'premium']
   const categoryLabels: Record<ProductCategory | 'all', string> = {
@@ -17,6 +25,15 @@ export default function Products() {
   const filtered = activeCategory === 'all'
     ? PRODUCTS
     : PRODUCTS.filter((p) => p.category === activeCategory)
+
+  function openLightbox(product: typeof PRODUCTS[0]) {
+    const images = [
+      product.image,
+      ...(product.images ?? []),
+    ].filter((s): s is string => Boolean(s))
+    if (images.length === 0) return
+    setLightbox({ images, index: 0, title: product.name })
+  }
 
   return (
     <section id="productos" className="py-20 md:py-28 bg-brand-black">
@@ -63,8 +80,13 @@ export default function Products() {
                 </div>
               )}
 
-              {/* Product image */}
-              <div className="relative h-52 bg-zinc-800 overflow-hidden">
+              {/* Product image — click opens lightbox */}
+              <button
+                onClick={() => openLightbox(product)}
+                className="relative h-52 bg-zinc-800 overflow-hidden w-full cursor-zoom-in focus:outline-none"
+                aria-label={`Ver imágenes de ${product.name}`}
+                disabled={!product.image && !(product.images?.length)}
+              >
                 {product.image ? (
                   <img
                     src={product.image}
@@ -77,7 +99,16 @@ export default function Products() {
                   </div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/60 to-transparent" />
-              </div>
+
+                {/* Zoom hint on hover */}
+                {(product.image || product.images?.length) && (
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="bg-black/50 rounded-full p-3 backdrop-blur-sm">
+                      <ZoomIcon className="w-5 h-5 text-brand-gold" />
+                    </div>
+                  </div>
+                )}
+              </button>
 
               {/* Content */}
               <div className="p-5 flex flex-col flex-1">
@@ -97,6 +128,7 @@ export default function Products() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-gold w-full justify-center text-sm py-2.5"
+                  onClick={e => e.stopPropagation()}
                 >
                   <WhatsAppIcon className="w-4 h-4" />
                   Consultar precio
@@ -118,6 +150,17 @@ export default function Products() {
           </a>
         </div>
       </div>
+
+      {/* Lightbox */}
+      {lightbox && (
+        <Lightbox
+          images={lightbox.images}
+          index={lightbox.index}
+          title={lightbox.title}
+          onClose={() => setLightbox(null)}
+          onNavigate={(i) => setLightbox(prev => prev ? { ...prev, index: i } : null)}
+        />
+      )}
     </section>
   )
 }
@@ -130,6 +173,14 @@ function ProductPlaceholder({ category }: { category: ProductCategory }) {
     premium: <BoxIcon className="w-20 h-20 text-brand-gold/30" />,
   }
   return <>{icons[category]}</>
+}
+
+function ZoomIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+    </svg>
+  )
 }
 
 function StarIcon({ className }: { className?: string }) {

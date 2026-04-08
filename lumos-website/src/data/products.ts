@@ -7,6 +7,7 @@ export interface Product {
   category: ProductCategory
   isFeatured?: boolean
   image?: string
+  images?: string[]   // additional images shown in lightbox
 }
 
 export const CATEGORY_LABELS: Record<ProductCategory, string> = {
