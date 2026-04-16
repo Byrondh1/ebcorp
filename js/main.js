@@ -305,3 +305,106 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
   sections.forEach(s => observer.observe(s));
 })();
+
+/* ============================================================
+   LIGHTNING STORM — Canvas background effect for hero
+============================================================ */
+(function initLightning() {
+  const canvas = document.getElementById('lightningCanvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    const hero = canvas.parentElement;
+    canvas.width  = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  // Draw a recursive lightning bolt segment
+  function drawBolt(x1, y1, x2, y2, depth, alpha) {
+    if (depth === 0) return;
+
+    const mx = (x1 + x2) / 2 + (Math.random() - 0.5) * (Math.abs(x2 - x1) + Math.abs(y2 - y1)) * 0.4;
+    const my = (y1 + y2) / 2 + (Math.random() - 0.5) * 20;
+
+    // Glow pass
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(mx, my);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = `rgba(201,168,76,${alpha * 0.3})`;
+    ctx.lineWidth = depth * 2.5;
+    ctx.shadowColor = '#FFE01B';
+    ctx.shadowBlur = 18;
+    ctx.stroke();
+
+    // Core pass
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(mx, my);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+    ctx.lineWidth = Math.max(0.5, depth * 0.8);
+    ctx.shadowColor = '#fff';
+    ctx.shadowBlur = 8;
+    ctx.stroke();
+
+    // Recurse main bolt
+    drawBolt(x1, y1, mx, my, depth - 1, alpha * 0.85);
+    drawBolt(mx, my, x2, y2, depth - 1, alpha * 0.85);
+
+    // Random branch
+    if (depth > 2 && Math.random() > 0.55) {
+      const bx = mx + (Math.random() - 0.3) * canvas.width * 0.25;
+      const by = my + Math.random() * (canvas.height - my) * 0.45;
+      drawBolt(mx, my, bx, by, depth - 2, alpha * 0.5);
+    }
+  }
+
+  function strike() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const count = Math.floor(Math.random() * 2) + 1;
+    for (let i = 0; i < count; i++) {
+      const x1 = Math.random() * canvas.width;
+      const y1 = 0;
+      const x2 = x1 + (Math.random() - 0.5) * canvas.width * 0.4;
+      const y2 = canvas.height * (0.4 + Math.random() * 0.5);
+      drawBolt(x1, y1, x2, y2, 6, 0.9);
+    }
+
+    // Flash overlay
+    ctx.fillStyle = 'rgba(255,255,220,0.04)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Fade out
+    let opacity = 1;
+    const fade = setInterval(() => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      opacity -= 0.12;
+      if (opacity <= 0) { clearInterval(fade); return; }
+      ctx.globalAlpha = opacity;
+      for (let i = 0; i < count; i++) {
+        const x1 = Math.random() * canvas.width * 0.1 + canvas.width * 0.45;
+        const y1 = 0;
+        const x2 = x1 + (Math.random() - 0.5) * 60;
+        const y2 = canvas.height * 0.3;
+        drawBolt(x1, y1, x2, y2, 3, 0.3);
+      }
+      ctx.globalAlpha = 1;
+    }, 50);
+  }
+
+  // Schedule random strikes
+  function scheduleNext() {
+    const delay = 1500 + Math.random() * 4000;
+    setTimeout(() => { strike(); scheduleNext(); }, delay);
+  }
+
+  // Initial strike after short delay
+  setTimeout(strike, 800);
+  scheduleNext();
+})();
