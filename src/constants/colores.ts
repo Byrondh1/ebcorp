@@ -1,0 +1,18 @@
+export const Colores = {
+  primario: '#1E3A5F',
+  secundario: '#2563EB',
+  acento: '#F59E0B',
+  exito: '#10B981',
+  peligro: '#EF4444',
+  advertencia: '#F59E0B',
+  fondo: '#F3F4F6',
+  superficie: '#FFFFFF',
+  borde: '#E5E7EB',
+  textoP: '#111827',
+  textoS: '#6B7280',
+  textoD: '#9CA3AF',
+  efectivo: '#10B981',
+  transferencia: '#2563EB',
+  credito: '#F59E0B',
+  deuda: '#EF4444',
+};

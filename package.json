@@ -1,7 +1,7 @@
 {
   "name": "ebcorp",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "expo": "~55.0.6",
+    "expo-router": "~4.0.17",
+    "expo-sqlite": "~15.2.9",
+    "expo-crypto": "~14.0.2",
     "expo-status-bar": "~55.0.4",
     "expo-font": "~13.3.1",
     "expo-linear-gradient": "~14.1.5",
