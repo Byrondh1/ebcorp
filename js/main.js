@@ -390,6 +390,88 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 /* ============================================================
    SERVICE PILLAR TILT — 3D tilt on mousemove
 ============================================================ */
+/* ============================================================
+   EB REVEAL — Site-wide IntersectionObserver scroll reveal
+============================================================ */
+(function initEbReveal() {
+
+  // Selectors that get eb-reveal as a whole unit
+  var SECTION_SELECTORS = [
+    'section.stats-bar',
+    'section.pain-points',
+    'section.solution',
+    'section.services',
+    'section.process',
+    'section.projects',
+    'section.testimonials',
+    'section.faq',
+    'section.cta-final'
+  ];
+
+  // Selectors whose children each get eb-reveal with stagger
+  var CARD_SELECTORS = [
+    '.services-grid',
+    '.process-steps',
+    '.pricing-cards-grid',
+    '.faq-grid'
+  ];
+
+  // Collect all targets
+  var targets = [];
+
+  SECTION_SELECTORS.forEach(function (sel) {
+    document.querySelectorAll(sel).forEach(function (el) {
+      el.classList.add('eb-reveal');
+      targets.push({ el: el, stagger: false });
+    });
+  });
+
+  CARD_SELECTORS.forEach(function (sel) {
+    document.querySelectorAll(sel).forEach(function (parent) {
+      Array.from(parent.children).forEach(function (child, i) {
+        child.classList.add('eb-reveal');
+        child.style.transitionDelay = (i * 80) + 'ms';
+        targets.push({ el: child, stagger: true });
+      });
+    });
+  });
+
+  // Also handle individual items not in a known grid
+  ['.service-card', '.pricing-card', '.faq-item', '.process-steps .step'].forEach(function (sel) {
+    document.querySelectorAll(sel).forEach(function (el, i) {
+      if (!el.classList.contains('eb-reveal')) {
+        el.classList.add('eb-reveal');
+        el.style.transitionDelay = (i % 4 * 80) + 'ms';
+        targets.push({ el: el, stagger: true });
+      }
+    });
+  });
+
+  if (!targets.length) return;
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('eb-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  targets.forEach(function (t) {
+    // Sections already in viewport at load (scrollY === 0) get visible immediately
+    if (window.scrollY === 0 && t.el.getBoundingClientRect().top < window.innerHeight) {
+      t.el.classList.add('eb-visible');
+    } else {
+      observer.observe(t.el);
+    }
+  });
+
+})();
+
+/* ============================================================
+   SERVICE PILLAR TILT — 3D tilt on mousemove
+============================================================ */
 (function initTilt() {
   document.querySelectorAll('.service-pillar').forEach(function (el) {
     el.addEventListener('mousemove', function (e) {

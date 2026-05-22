@@ -2092,6 +2092,19 @@ p { line-height: 1.7; color: var(--color-gray-700); }
 }
 
 /* ============================================================
+   EB REVEAL — Site-wide scroll reveal
+============================================================ */
+.eb-reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.eb-reveal.eb-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
    HERO LIGHTNING BACKGROUND
 ============================================================ */
 .hero-lightning-bg {
