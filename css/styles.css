@@ -2126,3 +2126,65 @@ p { line-height: 1.7; color: var(--color-gray-700); }
   4%   { opacity: 0; }
   100% { opacity: 0; }
 }
+
+/* ============================================================
+   HERO CTA — Rotating border glow effect on hover
+============================================================ */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes rotate-border {
+  to { --angle: 360deg; }
+}
+
+.hero-cta-group .btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-cta-group .btn > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-cta-group .btn::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.hero-cta-group .btn:hover::before {
+  opacity: 0.8;
+  animation: rotate-border 3s linear infinite;
+}
+
+/* btn-primary: blue + white */
+.hero-cta-group .btn-primary::before {
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    transparent 0deg,
+    #4F8EF7 60deg,
+    #ffffff 120deg,
+    #4F8EF7 180deg,
+    transparent 240deg
+  );
+}
+
+/* btn-whatsapp: green + white */
+.hero-cta-group .btn-whatsapp::before {
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    transparent 0deg,
+    #25D366 60deg,
+    #ffffff 120deg,
+    #25D366 180deg,
+    transparent 240deg
+  );
+}
