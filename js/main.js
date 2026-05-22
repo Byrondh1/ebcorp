@@ -10,11 +10,10 @@
    HERO ENTRANCE — CSS transitions applied via JS on DOMContentLoaded
 ============================================================ */
 document.addEventListener('DOMContentLoaded', function () {
-  var h1       = document.getElementById('hero-heading');
-  var tagline  = h1 && h1.parentElement.querySelector('p[style*="ELECTRICAL"]')
-                   || document.querySelector('.hero-content > p:not(.hero-sub)');
-  var sub      = document.querySelector('.hero-sub');
-  var cta      = document.querySelector('.hero-cta-group');
+  var h1      = document.getElementById('hero-heading');
+  var tagline = document.querySelector('.hero-content > p:not(.hero-sub)');
+  var sub     = document.querySelector('.hero-sub');
+  var cta     = document.querySelector('.hero-cta-group');
 
   function animateIn(el, delay, transition, to) {
     if (!el) return;
