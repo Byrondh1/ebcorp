@@ -29,12 +29,36 @@ document.addEventListener('DOMContentLoaded', function () {
     { opacity: '1', transform: 'translateY(0)' }
   );
 
-  // 2. tagline: letter-spacing ensanchado→normal + opacity 0→1, 700ms, delay 400ms
-  //    initial letter-spacing set to 0.6em in HTML; animate to 0.3em
-  animateIn(tagline, 400,
-    'opacity 700ms ease-out, letter-spacing 700ms ease-out',
-    { opacity: '1', letterSpacing: '0.3em' }
-  );
+  // 2. tagline: typewriter effect — letras una por una cada 55ms, delay 500ms
+  (function typewriter() {
+    if (!tagline) return;
+    var fullText = tagline.textContent.trim();
+    tagline.textContent = '';
+
+    var cursor = document.createElement('span');
+    cursor.className = 'typewriter-cursor';
+    cursor.textContent = '|';
+    tagline.appendChild(cursor);
+
+    setTimeout(function () {
+      tagline.style.transition = 'opacity 200ms ease';
+      tagline.style.opacity = '1';
+
+      var i = 0;
+      var interval = setInterval(function () {
+        if (i < fullText.length) {
+          tagline.insertBefore(document.createTextNode(fullText[i]), cursor);
+          i++;
+        } else {
+          clearInterval(interval);
+          setTimeout(function () {
+            cursor.style.animation = 'none';
+            cursor.style.opacity = '0';
+          }, 800);
+        }
+      }, 55);
+    }, 500);
+  })();
 
   // 3. hero-sub: translateY(15px→0) + opacity 0→1, 500ms, delay 700ms
   animateIn(sub, 700,

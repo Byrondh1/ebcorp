@@ -2092,6 +2092,20 @@ p { line-height: 1.7; color: var(--color-gray-700); }
 }
 
 /* ============================================================
+   TYPEWRITER CURSOR
+============================================================ */
+.typewriter-cursor {
+  display: inline-block;
+  margin-left: 2px;
+  font-weight: 400;
+  animation: blink 0.7s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* ============================================================
    EB REVEAL — Site-wide scroll reveal
 ============================================================ */
 .eb-reveal {
