@@ -2202,3 +2202,28 @@ p { line-height: 1.7; color: var(--color-gray-700); }
     transparent 240deg
   );
 }
+
+/* ============================================================
+   CTA FINAL — WhatsApp pulse ring
+   Selector real: section.cta-final (no .cta-section ni .contact-cta)
+============================================================ */
+.cta-final .btn-whatsapp {
+  position: relative;
+}
+
+.cta-final .btn-whatsapp::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #25D366;
+  opacity: 0;
+  animation: whatsapp-pulse 2.2s ease-out infinite;
+  z-index: -1;
+}
+
+@keyframes whatsapp-pulse {
+  0%   { transform: scale(1);    opacity: 0.5; }
+  70%  { transform: scale(1.35); opacity: 0;   }
+  100% { transform: scale(1.35); opacity: 0;   }
+}
