@@ -359,12 +359,20 @@ p { line-height: 1.7; color: var(--color-gray-700); }
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255,255,255,0.06);
-  transition: all var(--transition-base);
+  transition: all 300ms ease;
 }
 
 .nav-header.scrolled {
   background: rgba(13, 17, 23, 0.97);
   box-shadow: var(--shadow-lg);
+}
+
+.nav-header.nav-scrolled {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(26, 43, 95, 0.88);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+  transition: all 300ms ease;
 }
 
 .nav-container {

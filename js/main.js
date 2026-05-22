@@ -7,6 +7,50 @@
 'use strict';
 
 /* ============================================================
+   HERO ENTRANCE — CSS transitions applied via JS on DOMContentLoaded
+============================================================ */
+document.addEventListener('DOMContentLoaded', function () {
+  var h1       = document.getElementById('hero-heading');
+  var tagline  = h1 && h1.parentElement.querySelector('p[style*="ELECTRICAL"]')
+                   || document.querySelector('.hero-content > p:not(.hero-sub)');
+  var sub      = document.querySelector('.hero-sub');
+  var cta      = document.querySelector('.hero-cta-group');
+
+  function animateIn(el, delay, transition, to) {
+    if (!el) return;
+    setTimeout(function () {
+      el.style.transition = transition;
+      Object.assign(el.style, to);
+    }, delay);
+  }
+
+  // 1. h1: translateY(30px→0) + opacity 0→1, 600ms, delay 100ms
+  animateIn(h1, 100,
+    'opacity 600ms ease-out, transform 600ms ease-out',
+    { opacity: '1', transform: 'translateY(0)' }
+  );
+
+  // 2. tagline: letter-spacing ensanchado→normal + opacity 0→1, 700ms, delay 400ms
+  //    initial letter-spacing set to 0.6em in HTML; animate to 0.3em
+  animateIn(tagline, 400,
+    'opacity 700ms ease-out, letter-spacing 700ms ease-out',
+    { opacity: '1', letterSpacing: '0.3em' }
+  );
+
+  // 3. hero-sub: translateY(15px→0) + opacity 0→1, 500ms, delay 700ms
+  animateIn(sub, 700,
+    'opacity 500ms ease-out, transform 500ms ease-out',
+    { opacity: '1', transform: 'translateY(0)' }
+  );
+
+  // 4. cta-group: scale(0.95→1) + opacity 0→1, 400ms, delay 950ms
+  animateIn(cta, 950,
+    'opacity 400ms ease-out, transform 400ms ease-out',
+    { opacity: '1', transform: 'scale(1)' }
+  );
+});
+
+/* ============================================================
    NAVIGATION — Scroll behavior + mobile toggle
 ============================================================ */
 (function initNav() {
@@ -15,9 +59,17 @@
   const navLinks = document.getElementById('navLinks');
   if (!navbar) return;
 
-  // Scroll class
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  // Scroll class — rAF throttled
+  var rafPending = false;
+  window.addEventListener('scroll', function () {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(function () {
+      var past = window.scrollY > 60;
+      navbar.classList.toggle('scrolled',     past);
+      navbar.classList.toggle('nav-scrolled', past);
+      rafPending = false;
+    });
   }, { passive: true });
 
   // Mobile toggle
