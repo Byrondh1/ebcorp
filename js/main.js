@@ -306,3 +306,33 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   sections.forEach(s => observer.observe(s));
 })();
 
+/* ============================================================
+   STATS COUNTER — Animates .stat-number[data-count] on scroll
+============================================================ */
+(function initStatsCounter() {
+  const statsBar = document.querySelector('section.stats-bar');
+  if (!statsBar) return;
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    if (!entries[0].isIntersecting) return;
+    obs.disconnect();
+
+    statsBar.querySelectorAll('.stat-number[data-count]').forEach(span => {
+      const end      = parseInt(span.getAttribute('data-count'), 10);
+      const duration = 1800;
+      const start    = performance.now();
+
+      function tick(now) {
+        const t        = Math.min((now - start) / duration, 1);
+        const progress = 1 - Math.pow(1 - t, 3);
+        span.textContent = Math.round(progress * end);
+        if (t < 1) requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(statsBar);
+})();
+
