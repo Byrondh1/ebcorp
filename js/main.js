@@ -387,3 +387,25 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   observer.observe(statsBar);
 })();
 
+/* ============================================================
+   SERVICE PILLAR TILT — 3D tilt on mousemove
+============================================================ */
+(function initTilt() {
+  document.querySelectorAll('.service-pillar').forEach(function (el) {
+    el.addEventListener('mousemove', function (e) {
+      var rect    = el.getBoundingClientRect();
+      var xRatio  = (e.clientX - rect.left)  / rect.width;
+      var yRatio  = (e.clientY - rect.top)   / rect.height;
+      var rotateY =  (xRatio - 0.5) * 12;
+      var rotateX = -(yRatio - 0.5) * 12;
+      el.style.transition = 'transform 100ms ease';
+      el.style.transform  = 'perspective(1200px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+    });
+
+    el.addEventListener('mouseleave', function () {
+      el.style.transition = 'transform 400ms ease';
+      el.style.transform  = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+    });
+  });
+})();
+

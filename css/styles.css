@@ -1021,6 +1021,7 @@ p { line-height: 1.7; color: var(--color-gray-700); }
   transition: transform var(--transition-base), box-shadow var(--transition-base);
   display: flex;
   flex-direction: column;
+  will-change: transform;
 }
 
 .service-pillar:hover {
