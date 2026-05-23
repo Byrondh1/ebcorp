@@ -1621,16 +1621,34 @@ p { line-height: 1.7; color: var(--color-gray-700); }
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
+  position: relative;
   transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+/* Animated left border via pseudo-element */
+.faq-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: #4F8EF7;
+  transition: width 200ms ease;
+  pointer-events: none;
 }
 
 .faq-item:hover {
   border-color: rgba(0, 212, 255, 0.3);
 }
 
-.faq-item[open] {
+.faq-item.faq-open {
   border-color: rgba(0, 212, 255, 0.4);
   box-shadow: 0 4px 20px rgba(0, 212, 255, 0.08);
+}
+
+.faq-item.faq-open::before {
+  width: 4px;
 }
 
 .faq-question {
@@ -1638,34 +1656,49 @@ p { line-height: 1.7; color: var(--color-gray-700); }
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
+  width: 100%;
   padding: var(--space-5) var(--space-6);
   font-weight: 600;
   font-size: var(--text-sm);
   color: var(--color-dark);
+  background: none;
+  border: none;
   cursor: pointer;
-  list-style: none;
+  text-align: left;
   user-select: none;
   transition: color var(--transition-fast);
+  font-family: inherit;
 }
-
-.faq-question::-webkit-details-marker { display: none; }
 
 .faq-question:hover {
   color: var(--color-primary);
 }
 
 .faq-icon {
-  font-size: 0.7rem;
-  color: rgba(0, 212, 255, 0.6);
-  transition: transform var(--transition-base);
+  font-size: 0.8rem;
+  color: #4F8EF7;
+  transition: transform 300ms ease;
   flex-shrink: 0;
 }
 
-.faq-item[open] .faq-icon {
-  transform: rotate(180deg);
+.faq-item.faq-open .faq-icon {
+  transform: rotate(45deg);
 }
 
+/* Answer: max-height transition for smooth open/close */
 .faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 350ms ease-out, opacity 350ms ease-out;
+}
+
+.faq-item.faq-open .faq-answer {
+  max-height: 500px;
+  opacity: 1;
+}
+
+.faq-answer-inner {
   padding: 0 var(--space-6) var(--space-6);
   font-size: var(--text-sm);
   color: var(--color-text-secondary);

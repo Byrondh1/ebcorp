@@ -647,3 +647,42 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   startTimer();
 })();
 
+/* ============================================================
+   FAQ ACCORDION — One open at a time, animated max-height
+============================================================ */
+(function initFAQ() {
+  var items = document.querySelectorAll('.faq-item');
+  if (!items.length) return;
+
+  function openItem(item) {
+    item.classList.add('faq-open');
+    var btn = item.querySelector('.faq-question');
+    var ans = item.querySelector('.faq-answer');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+    if (ans) ans.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeItem(item) {
+    item.classList.remove('faq-open');
+    var btn = item.querySelector('.faq-question');
+    var ans = item.querySelector('.faq-answer');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+    if (ans) ans.setAttribute('aria-hidden', 'true');
+  }
+
+  items.forEach(function (item) {
+    var btn = item.querySelector('.faq-question');
+    if (!btn) return;
+
+    btn.addEventListener('click', function () {
+      var isOpen = item.classList.contains('faq-open');
+
+      // Close all items
+      items.forEach(closeItem);
+
+      // If it was closed, open it
+      if (!isOpen) openItem(item);
+    });
+  });
+})();
+
