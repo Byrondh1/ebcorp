@@ -2241,3 +2241,27 @@ p { line-height: 1.7; color: var(--color-gray-700); }
   70%  { transform: scale(1.35); opacity: 0;   }
   100% { transform: scale(1.35); opacity: 0;   }
 }
+
+/* ============================================================
+   PROCESS — Connecting line + spring step numbers
+============================================================ */
+.process-line {
+  position: absolute;
+  top: 2rem;
+  left: 5%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #4F8EF7, #1A2B5F);
+  z-index: 0;
+  transition: width 1200ms ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .process-line {
+    top: 5%;
+    left: calc(50% - 1px);
+    width: 2px;
+    height: 0;
+    transition: height 1200ms ease-in-out;
+  }
+}

@@ -494,6 +494,39 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 })();
 
 /* ============================================================
+   PROCESS ANIMATION — Connecting line + spring step numbers
+============================================================ */
+(function initProcessAnim() {
+  var section = document.querySelector('section.process');
+  if (!section) return;
+  var line    = section.querySelector('.process-line');
+  var numbers = section.querySelectorAll('.step-number');
+
+  numbers.forEach(function (n) { n.style.transform = 'scale(0)'; });
+
+  var observer = new IntersectionObserver(function (entries, obs) {
+    if (!entries[0].isIntersecting) return;
+    obs.disconnect();
+
+    if (line) {
+      var isMobile = window.innerWidth <= 768;
+      if (isMobile) { line.style.height = '100%'; }
+      else          { line.style.width  = '100%'; }
+    }
+
+    [0, 400, 800].forEach(function (delay, i) {
+      if (!numbers[i]) return;
+      setTimeout(function () {
+        numbers[i].style.transition = 'transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1)';
+        numbers[i].style.transform  = 'scale(1)';
+      }, delay);
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(section);
+})();
+
+/* ============================================================
    SERVICE PILLAR TILT — 3D tilt on mousemove
 ============================================================ */
 (function initTilt() {
