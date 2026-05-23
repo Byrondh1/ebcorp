@@ -686,3 +686,72 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 })();
 
+/* ============================================================
+   CUSTOM CURSOR — Desktop only, lerp-smoothed ring
+============================================================ */
+(function initCustomCursor() {
+  if (!window.matchMedia('(min-width: 768px)').matches) return;
+
+  var dot  = document.createElement('div');
+  var ring = document.createElement('div');
+  dot.id   = 'cursor-dot';
+  ring.id  = 'cursor-ring';
+  document.body.appendChild(dot);
+  document.body.appendChild(ring);
+
+  var targetX = 0, targetY = 0;
+  var ringX   = 0, ringY   = 0;
+  var firstMove = true;
+
+  document.addEventListener('mousemove', function (e) {
+    targetX = e.clientX;
+    targetY = e.clientY;
+
+    // Dot: exact position, no delay
+    dot.style.left = targetX + 'px';
+    dot.style.top  = targetY + 'px';
+
+    // First move: teleport ring to cursor to avoid initial lerp jump
+    if (firstMove) {
+      ringX = targetX;
+      ringY = targetY;
+      firstMove = false;
+      dot.style.opacity  = '1';
+      ring.style.opacity = '1';
+    }
+  }, { passive: true });
+
+  // Ring: lerp follows cursor each rAF
+  (function animateRing() {
+    if (!firstMove) {
+      ringX += (targetX - ringX) * 0.12;
+      ringY += (targetY - ringY) * 0.12;
+      ring.style.left = ringX + 'px';
+      ring.style.top  = ringY + 'px';
+    }
+    requestAnimationFrame(animateRing);
+  })();
+
+  // Hide/show when cursor leaves or enters the page
+  document.documentElement.addEventListener('mouseleave', function () {
+    dot.style.opacity  = '0';
+    ring.style.opacity = '0';
+  });
+  document.documentElement.addEventListener('mouseenter', function () {
+    if (!firstMove) {
+      dot.style.opacity  = '1';
+      ring.style.opacity = '1';
+    }
+  });
+
+  // Hover state: event delegation for a/button/.btn and h1/h2
+  document.addEventListener('mouseover', function (e) {
+    var onHeading = !!e.target.closest('h1, h2');
+    var onLink    = !onHeading && !!e.target.closest('a, button, .btn');
+
+    ring.classList.toggle('cur-heading', onHeading);
+    ring.classList.toggle('cur-link',    onLink);
+    dot.classList.toggle('cur-link',     onLink);
+  }, { passive: true });
+})();
+

@@ -2371,3 +2371,58 @@ p { line-height: 1.7; color: var(--color-gray-700); }
 @media (max-width: 767px) {
   .testimonials-dots { display: none; }
 }
+
+/* ============================================================
+   CUSTOM CURSOR — Desktop only (JS injects #cursor-dot/ring)
+============================================================ */
+@media (min-width: 768px) {
+  *, *::before, *::after { cursor: none !important; }
+}
+
+#cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4F8EF7;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  will-change: left, top, transform;
+  transition: transform 150ms ease, opacity 200ms ease;
+}
+
+#cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid #4F8EF7;
+  background: transparent;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 0;
+  will-change: left, top, transform;
+  transition: transform 300ms ease, background-color 300ms ease, opacity 200ms ease;
+}
+
+/* Link / button hover */
+#cursor-dot.cur-link {
+  transform: translate(-50%, -50%) scale(0);
+}
+#cursor-ring.cur-link {
+  transform: translate(-50%, -50%) scale(1.8);
+  background: rgba(79, 142, 247, 0.15);
+}
+
+/* Heading hover */
+#cursor-ring.cur-heading {
+  transform: translate(-50%, -50%) scale(2.5);
+  mix-blend-mode: difference;
+}
