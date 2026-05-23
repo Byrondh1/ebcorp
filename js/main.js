@@ -186,38 +186,75 @@ document.addEventListener('DOMContentLoaded', function () {
 })();
 
 /* ============================================================
-   TAB FILTERING — Works for both portfolio (.project-card)
-   and blog grid (.blog-card) pages
+   TAB FILTERING — Animated filter with sliding indicator
 ============================================================ */
 (function initTabFilter() {
-  const tabs  = document.querySelectorAll('.tab-btn');
-  const cards = document.querySelectorAll('.project-card, .blog-card');
+  const tabs      = document.querySelectorAll('.tab-btn');
+  const cards     = document.querySelectorAll('.project-card, .blog-card');
+  const indicator = document.querySelector('.tab-indicator');
   if (!tabs.length || !cards.length) return;
+
+  function moveIndicator(btn) {
+    if (!indicator) return;
+    indicator.style.left  = btn.offsetLeft + 'px';
+    indicator.style.width = btn.offsetWidth + 'px';
+  }
+
+  // Position indicator on load without animating
+  const firstActive = document.querySelector('.tab-btn.active');
+  if (firstActive && indicator) {
+    indicator.style.transition = 'none';
+    moveIndicator(firstActive);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      indicator.style.transition = '';
+    }));
+  }
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       const filter = tab.dataset.tab;
 
-      tabs.forEach(t => {
-        t.classList.remove('active');
-        t.setAttribute('aria-pressed', 'false');
-      });
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-pressed', 'false'); });
       tab.classList.add('active');
       tab.setAttribute('aria-pressed', 'true');
 
-      cards.forEach(card => {
-        const category = card.dataset.category;
-        const visible  = filter === 'todos' || category === filter || category === 'todos';
+      moveIndicator(tab);
 
-        if (visible) {
-          card.style.display = '';
-          card.classList.remove('aos-animate');
-          requestAnimationFrame(() => {
-            setTimeout(() => card.classList.add('aos-animate'), 50);
-          });
-        } else {
-          card.style.display = 'none';
+      let showIdx = 0;
+
+      cards.forEach(card => {
+        const cat     = card.dataset.filter || card.dataset.category;
+        const matches = filter === 'todos' || cat === filter || cat === 'todos';
+        const isHidden = card.style.display === 'none';
+
+        if (!matches) {
+          // Animate out: opacity + scale, then hide
+          card.style.transition = 'opacity 200ms ease, transform 200ms ease';
+          card.style.opacity    = '0';
+          card.style.transform  = 'scale(0.92)';
+          setTimeout(() => {
+            card.style.display    = 'none';
+            card.style.transition = '';
+            card.style.opacity    = '';
+            card.style.transform  = '';
+          }, 210);
+
+        } else if (isHidden) {
+          // Animate in: reveal then transition opacity + scale with stagger
+          const delay = 50 + showIdx++ * 50;
+          card.style.display    = '';
+          card.style.transition = 'none';
+          card.style.opacity    = '0';
+          card.style.transform  = 'scale(0.92)';
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            setTimeout(() => {
+              card.style.transition = 'opacity 300ms ease, transform 300ms ease';
+              card.style.opacity    = '1';
+              card.style.transform  = 'scale(1)';
+            }, delay);
+          }));
         }
+        // Already visible and matches → no change needed
       });
     });
   });
