@@ -585,3 +585,65 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 })();
 
+/* ============================================================
+   TESTIMONIALS CAROUSEL — Crossfade autoplay, desktop only
+============================================================ */
+(function initTestimonials() {
+  if (!window.matchMedia('(min-width: 768px)').matches) return;
+
+  var cards  = document.querySelectorAll('.testimonial-card');
+  var dots   = document.querySelectorAll('.tc-dot');
+  var grid   = document.querySelector('.testimonials-grid');
+  if (cards.length < 2) return;
+
+  var current      = 0;
+  var paused       = false;
+  var transitioning = false;
+  var timer        = null;
+
+  function goTo(idx) {
+    if (transitioning) return;
+    var next = (idx + cards.length) % cards.length;
+    if (next === current) return;
+
+    transitioning = true;
+
+    // Fade out current
+    cards[current].classList.remove('tc-active');
+    if (dots[current]) dots[current].classList.remove('tc-dot-active');
+
+    // After fade-out completes, fade in next
+    setTimeout(function () {
+      current = next;
+      cards[current].classList.add('tc-active');
+      if (dots[current]) dots[current].classList.add('tc-dot-active');
+      transitioning = false;
+    }, 420);
+  }
+
+  function advance() {
+    if (!paused) goTo(current + 1);
+  }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(advance, 4000);
+  }
+
+  // Pause autoplay on hover
+  if (grid) {
+    grid.addEventListener('mouseenter', function () { paused = true; });
+    grid.addEventListener('mouseleave', function () { paused = false; });
+  }
+
+  // Dot click → jump directly + restart timer
+  dots.forEach(function (dot) {
+    dot.addEventListener('click', function () {
+      goTo(parseInt(dot.dataset.tc, 10));
+      startTimer();
+    });
+  });
+
+  startTimer();
+})();
+

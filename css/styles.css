@@ -2278,3 +2278,63 @@ p { line-height: 1.7; color: var(--color-gray-700); }
     transition: height 1200ms ease-in-out;
   }
 }
+
+/* ============================================================
+   TESTIMONIALS CAROUSEL — Desktop only (min-width: 768px)
+============================================================ */
+@media (min-width: 768px) {
+  /* Stack all cards in the same grid cell */
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  .testimonial-card {
+    grid-area: 1 / 1;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 400ms ease;
+  }
+
+  /* Cancel hover lift while cards are stacked */
+  .testimonial-card:hover {
+    transform: none;
+    box-shadow: var(--shadow-md);
+  }
+
+  .testimonial-card.tc-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Dot indicators */
+  .testimonials-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: var(--space-8);
+  }
+
+  .tc-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-gray-300);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: width 300ms ease, height 300ms ease, background-color 300ms ease;
+  }
+
+  .tc-dot.tc-dot-active {
+    width: 12px;
+    height: 12px;
+    background: #4F8EF7;
+  }
+}
+
+/* Hide dots on mobile */
+@media (max-width: 767px) {
+  .testimonials-dots { display: none; }
+}
