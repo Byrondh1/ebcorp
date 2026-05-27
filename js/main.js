@@ -688,6 +688,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 /* ============================================================
    CUSTOM CURSOR — Desktop only, lerp-smoothed ring
+   Usa transform (GPU composited) — no left/top para evitar layout thrashing
 ============================================================ */
 (function initCustomCursor() {
   if (!window.matchMedia('(min-width: 768px)').matches) return;
@@ -699,40 +700,44 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   document.body.appendChild(dot);
   document.body.appendChild(ring);
 
-  var targetX = 0, targetY = 0;
-  var ringX   = 0, ringY   = 0;
+  // Posición objetivo (mouse) y posición actual del ring (lerped)
+  var tx = 0, ty = 0;
+  var rx = 0, ry = 0;
+
+  // Escala objetivo y actual — lerpeadas en el loop para transición suave
+  var dotST = 1, dotS = 1;
+  var rngST = 1, rngS = 1;
+
   var firstMove = true;
+  var rafId     = null;
 
   document.addEventListener('mousemove', function (e) {
-    targetX = e.clientX;
-    targetY = e.clientY;
+    tx = e.clientX;
+    ty = e.clientY;
 
-    // Dot: exact position, no delay
-    dot.style.left = targetX + 'px';
-    dot.style.top  = targetY + 'px';
-
-    // First move: teleport ring to cursor to avoid initial lerp jump
     if (firstMove) {
-      ringX = targetX;
-      ringY = targetY;
+      rx = tx; ry = ty;       // teleportar ring al cursor para evitar salto inicial
       firstMove = false;
       dot.style.opacity  = '1';
       ring.style.opacity = '1';
     }
   }, { passive: true });
 
-  // Ring: lerp follows cursor each rAF
-  (function animateRing() {
+  // Loop rAF: todo vía transform — GPU composited, sin layout recalculation
+  function tick() {
     if (!firstMove) {
-      ringX += (targetX - ringX) * 0.12;
-      ringY += (targetY - ringY) * 0.12;
-      ring.style.left = ringX + 'px';
-      ring.style.top  = ringY + 'px';
-    }
-    requestAnimationFrame(animateRing);
-  })();
+      rx += (tx - rx) * 0.12;
+      ry += (ty - ry) * 0.12;
+      dotS += (dotST - dotS) * 0.18;
+      rngS += (rngST - rngS) * 0.12;
 
-  // Hide/show when cursor leaves or enters the page
+      dot.style.transform  = 'translate(' + (tx - 3)  + 'px,' + (ty - 3)  + 'px) scale(' + dotS + ')';
+      ring.style.transform = 'translate(' + (rx - 12) + 'px,' + (ry - 12) + 'px) scale(' + rngS + ')';
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+  tick();
+
   document.documentElement.addEventListener('mouseleave', function () {
     dot.style.opacity  = '0';
     ring.style.opacity = '0';
@@ -744,14 +749,15 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     }
   });
 
-  // Hover state: event delegation for a/button/.btn and h1/h2
   document.addEventListener('mouseover', function (e) {
     var onHeading = !!e.target.closest('h1, h2');
     var onLink    = !onHeading && !!e.target.closest('a, button, .btn');
 
     ring.classList.toggle('cur-heading', onHeading);
     ring.classList.toggle('cur-link',    onLink);
-    dot.classList.toggle('cur-link',     onLink);
+
+    dotST = onLink    ? 0   : 1;
+    rngST = onHeading ? 2.5 : onLink ? 1.8 : 1;
   }, { passive: true });
 })();
 

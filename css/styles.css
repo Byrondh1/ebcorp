@@ -2389,10 +2389,9 @@ p { line-height: 1.7; color: var(--color-gray-700); }
   background: #4F8EF7;
   pointer-events: none;
   z-index: 9999;
-  transform: translate(-50%, -50%);
   opacity: 0;
-  will-change: left, top, transform;
-  transition: transform 150ms ease, opacity 200ms ease;
+  will-change: transform;
+  transition: opacity 200ms ease;
 }
 
 #cursor-ring {
@@ -2406,23 +2405,17 @@ p { line-height: 1.7; color: var(--color-gray-700); }
   background: transparent;
   pointer-events: none;
   z-index: 9998;
-  transform: translate(-50%, -50%) scale(1);
   opacity: 0;
-  will-change: left, top, transform;
-  transition: transform 300ms ease, background-color 300ms ease, opacity 200ms ease;
+  will-change: transform;
+  transition: background-color 300ms ease, opacity 200ms ease;
 }
 
-/* Link / button hover */
-#cursor-dot.cur-link {
-  transform: translate(-50%, -50%) scale(0);
-}
+/* Solo propiedades no-transform vía clases — posición y escala las maneja JS */
 #cursor-ring.cur-link {
-  transform: translate(-50%, -50%) scale(1.8);
   background: rgba(79, 142, 247, 0.15);
 }
 
-/* Heading hover */
 #cursor-ring.cur-heading {
-  transform: translate(-50%, -50%) scale(2.5);
   mix-blend-mode: difference;
+  background: rgba(255, 255, 255, 0.7);
 }
