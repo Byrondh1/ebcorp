@@ -25,9 +25,12 @@
     }
 
     // Cargar GA4 solo si hay consentimiento previo
-    if (localStorage.getItem('eb_cookie_consent') === 'accepted') {
-      loadGA4();
-    }
+    // try/catch: localStorage lanza en modo privado restringido o con cookies bloqueadas
+    try {
+      if (localStorage.getItem('eb_cookie_consent') === 'accepted') {
+        loadGA4();
+      }
+    } catch (err) { /* sin acceso a localStorage: no cargar GA4 */ }
 
     // Evento: clic en WhatsApp (solo si GA4 activo)
     document.addEventListener('click', function(e) {
@@ -157,8 +160,7 @@
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" /></noscript>
 
   <!-- Icons (deferred — not critical for first paint) -->
-  <!-- SRI hash: obtener de https://cdnjs.com/libraries/font-awesome/6.5.0 → all.min.css → copiar integrity -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" media="print" onload="this.media='all'" />
 
   <!-- Styles -->
   <link rel="preload" href="css/styles.css" as="style" />
@@ -1004,7 +1006,9 @@
   <script src="js/main.js" defer></script>
   <script>
     (function() {
-      var consent = localStorage.getItem('eb_cookie_consent');
+      // try/catch: localStorage lanza en modo privado restringido o con cookies bloqueadas
+      var consent = null;
+      try { consent = localStorage.getItem('eb_cookie_consent'); } catch (err) {}
       var banner  = document.getElementById('cookieBanner');
       if (!consent) {
         // Show banner after short delay so it doesn't block LCP
@@ -1012,13 +1016,13 @@
       }
 
       document.getElementById('cookieAccept').addEventListener('click', function() {
-        localStorage.setItem('eb_cookie_consent', 'accepted');
+        try { localStorage.setItem('eb_cookie_consent', 'accepted'); } catch (err) {}
         banner.classList.remove('visible');
         loadGA4();
       });
 
       document.getElementById('cookieReject').addEventListener('click', function() {
-        localStorage.setItem('eb_cookie_consent', 'rejected');
+        try { localStorage.setItem('eb_cookie_consent', 'rejected'); } catch (err) {}
         banner.classList.remove('visible');
       });
     })();
